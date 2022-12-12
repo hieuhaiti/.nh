@@ -1,0 +1,53 @@
+.body-wrapper__content .col-3 a {
+    color: black;
+    display: block;
+    padding: 1.2vw;
+    text-decoration: none;
+    width: 100% !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.body-wrapper__content a:hover {
+    color: #1E90FF;
+}
+
+.body-wrapper__content input,
+.body-wrapper__content select {
+    width: 90% !important;
+    margin-left: 1vw;
+}
+
+.body-wrapper__content .ckediter-textarea {
+    width: 93% !important;
+}
+
+.course-container {
+    width: 100% !important;
+}
+
+.body-wrapper__content .course-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 1%;
+}
+
+.card-wrapper {
+    margin: auto;
+}
+
+.course-container .card-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card img {
+    height: 10em;
+}
+
+.return_page-text {
+    color: rgba(0, 64, 255, 0.5) !important;
+}
+.return_page-text:hover {
+    color: rgba(0, 64, 255, 1) !important;
+}

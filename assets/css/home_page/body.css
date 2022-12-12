@@ -1,0 +1,124 @@
+.grid-4column {
+    display: grid;
+    padding: 50px;
+    grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
+    column-gap: 1%;
+    row-gap: 30px;
+    font-size: 1.5em;
+}
+
+.grid-4column__title {
+    margin-top: 3%;
+    grid-column: 1/-1;
+    /* text-align: center; */
+    font-size: 2em;
+}
+
+.grid-4column__box--color1 {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    width: 100%;
+    min-height: 25vh;
+    text-align: center;
+    background-image: linear-gradient(to bottom right, #1b76ab, #f05053, #F56217);
+    color: aliceblue;
+}
+
+.grid-4column__box--color2 {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    width: 100%;
+    min-height: 25vh;
+    word-wrap: break-word;
+    text-align: center;
+    background-image: linear-gradient(to bottom right, #e96443, #904e95);
+    color: aliceblue;
+}
+
+.grid-4column__box--color3 {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    width: 100%;
+    min-height: 25vh;
+    word-wrap: break-word;
+    text-align: center;
+    background-image: linear-gradient(to bottom right, #FC466B, #3F5EFB);
+    color: aliceblue;
+}
+
+.grid-4column__box--color4 {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    width: 100%;
+    min-height: 25vh;
+    text-align: center;
+    background-image: linear-gradient(to bottom right, #03001e, #7303c0, #ec38bc);
+    color: aliceblue;
+}
+
+.grid-4column__box--color5 {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    width: 100%;
+    min-height: 25vh;
+    text-align: center;
+    background-image: linear-gradient(to bottom right, #37638f, #FD746C);
+    color: aliceblue;
+}
+
+.paragraph {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+div#card3 {
+    width: 25vw;
+    margin-right: 8%;
+    margin-left: 8%;
+}
+
+div#card2__left {
+    width: 25vw;
+    margin-left: 29.5%;
+    margin-right: 14.9%;
+}
+
+div#card2__right {
+    width: 25vw;
+    margin-left: 14.9%;
+    margin-right: 29.5%;
+}
+
+div#card1 {
+    width: 25vw;
+    margin-left: 36%;
+    margin-right: 36%;
+}
+
+.grid-4column>a:hover {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+
+.fa-star-o {
+    color: orange
+}
+
+.checked {
+    color: orange;
+}

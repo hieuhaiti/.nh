@@ -1,0 +1,158 @@
+* {
+    font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --selection-bg-color: #00d4ff;
+    --selection-text-color: white;
+    --bg-color: #1c1d1f;
+    --border-line-color: rgba(222, 217, 217, 0.3);
+    --border-line-color-bold: rgba(222, 217, 217, 0.8);
+}
+
+::selection {
+    color: black;
+    background: rgba(222, 217, 217, 0.9);
+    /* sử dụng background-image để cấm chặn user coppy text */
+}
+
+/* LAYOUT */
+.learning_interface--layout {
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    margin: 0;
+}
+
+/* NAV */
+.nav__elements--pc,
+.nav__elements--mb {
+    width: 100%;
+    height: 3.5em;
+    background-color: var(--bg-color);
+    border-bottom: 0.0625em solid var(--border-line-color);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.nav_logo--vline {
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 100%;
+    color: white;
+}
+
+.nav__elements--pc div > a,
+.nav__elements--mb > a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.nav__elements--pc div a,
+.nav__elements--mb a,
+.nav_btn {
+    color: #fff;
+    padding: 1em 2em;
+}
+
+.nav__elements--pc .on-hover:hover,
+.nav__elements--mb > .on-hover:hover {
+    background-color: #dfdede;
+    color: black;
+}
+
+/* BODY */
+.body-wrapper {
+    /* height: 700px; */
+    margin-bottom: 450px;
+}
+
+.body-wrapper__content {
+    margin-top: 3.5em;
+}
+
+/* FOOTER */
+footer {
+    /* width: 100%; */
+    background-color: var(--bg-color);
+    color: white;
+    min-height: 4em;
+    margin-bottom: 0;
+    margin-top: 3vw;
+    z-index: 1;
+}
+
+/* SIDEBAR */
+.sidebar-accordion {
+    height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    border-left: 1px solid rgba(0, 0, 0, .125);
+}
+
+.accordion-collapse__elements a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 1.2vw;
+    text-decoration: none;
+}
+
+.accordion-collapse__elements a:hover {
+    background-color: #ccc;
+}
+
+@media (max-width: 62em) {
+    .sidebar-accordion--pc,
+    .nav__elements--pc {
+        display: none;
+    }
+
+    .body-wrapper,
+    nav {
+        width: 100%;
+    }
+
+    .sidebar-accordion {
+        width: 100%;
+    }
+
+    footer {
+        width: 100%;
+    }
+
+}
+
+@media (min-width: 62em) {
+    .nav__elements--mb {
+        display: none;
+    }
+
+    .body-wrapper {
+        width: 75%;
+        height: 75%;
+    }
+
+    .sidebar-accordion {
+        width: 25%;
+        position: fixed;
+        right: 0;
+        top: 3.5em;
+    }
+
+    .offcanvas-header h3 {
+        margin-left: 10px;
+    }
+
+    /* My course page */
+    .body-wrapper__content .course-container {
+        margin-left: 23px;
+    }
+
+    footer {
+        width: 75%;
+    }
+}

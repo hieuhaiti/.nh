@@ -1,0 +1,157 @@
+* {
+    font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --selection-bg-color: #00d4ff;
+    --selection-text-color: white;
+    --bg-color: #1c1d1f;
+    --border-line-color: rgba(222, 217, 217, 0.3);
+    --border-line-color-bold: rgba(222, 217, 217, 0.8);
+}
+
+::selection {
+    color: black;
+    background: rgba(222, 217, 217, 0.9);
+    /* sử dụng background-image để cấm chặn user coppy text */
+}
+
+/* NAV-Dropend tuỳ biến */
+.dropend-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropend-icon {
+    color: rgba(0, 0, 0, .8);
+    font-size: 1.7vh;
+}
+
+/*  HEADER__MY LEARNING */
+.Mylearning__list li {
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+.Mylearning__list .Mylearning__items {
+    display: grid;
+    grid-template-columns: 12.5em 12.5em;
+}
+
+.Mylearning__items--center meter {
+    width: 90%;
+    height: 5vh;
+    color: #198754;
+}
+
+.Mylearning__items>img,
+.Mylearning__items--center {
+    margin: auto;
+}
+
+/*  HEADER__LINK BAR */
+.link-bar {
+    width: 100%;
+    height: 3.125em;
+    border-top: 1px solid rgba(0, 0, 0, .125);
+    margin: 0;
+    margin-top: 3.5em;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+}
+
+.link-bar > li {
+    margin: auto 0.2%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 14%;
+    height: 100%;
+}
+
+.link-bar li > a {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    margin: auto;
+    display: block;
+}
+
+.link-bar > li > a {
+    font-weight: 500;
+}
+
+.sub-link-bar {
+    list-style-type: none;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba();
+}
+
+.sub-link-bar li {
+    list-style-type: none;
+    margin-left: -2em;
+}
+
+.sub-link-bar a {
+    color: rgba(0, 0, 0, .55);
+    text-align: center;
+    padding: 0.375em 0.9375em;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    text-decoration: none;
+}
+
+.link-bar li:hover .sub-link-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.link-bar li:hover,
+.linkbar .sub-link-bar div:hover {
+    background-color: #dfdede;
+}
+
+/* Với chiều rộng màn hình nhỏ hơn 992px thì ta ẩn thanh link-bar đi  */
+@media (max-width: 62em) {
+    .link-bar {
+        display: none;
+    }
+}
+
+/* Với chiều rộng màn hình lớn hơn 992px thì hover được */
+@media (min-width: 62em) {
+
+    .categories--lv1:hover .categories__elements--lv1,
+    .categories--lv2:hover .categories__elements--lv2,
+    .categories--lv3:hover .categories__elements--lv3,
+    .nav__Mylearning:hover .Mylearning__list {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .categories__elements--lv1 {
+        width: 20vw;
+    }
+
+    .categories__elements--lv2,
+    .categories__elements--lv3 {
+        top: 0;
+        left: 100%;
+        width: 130%;
+    }
+
+    .navbar__search-container {
+        width: 800px;
+        margin-left: 15px;
+    }
+}

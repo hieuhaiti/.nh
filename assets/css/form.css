@@ -1,0 +1,32 @@
+.form-wrapper {
+    height: 37vw;
+    width: 50%;
+    margin-top: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-wrapper form {
+    border-top: 1px solid rgba(0, 0, 0, .125);
+    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    padding: 1.5vw;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.form-wrapper .form-submit {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    border-radius: 10px;
+    border: none;
+    background-color: #4CAF50;
+    text-align: center;
+    color: white;
+    padding: 0.5em;
+}
+
+.form-wrapper .form-submit:hover {
+    background-color: #3e8e41;
+}
