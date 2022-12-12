@@ -34,9 +34,25 @@ require abs_path('helpers/upload_file.php');
                     <h3><b>My Course</b></h3>
                     <!-- PAGING PROCESS -->
                     <?php
+                    $total_records = 0;
+                    $kw = "";
+                    $search_type = "";
+
                     // Get total records
-                    $sql = "SELECT COUNT(*) AS total_records FROM `course` WHERE user_id = $CURRENT_USER_INFOR[user_id]";
-                    $total_records = executeResult($sql, $onlyOne = True)['total_records'];
+                    if (isset($_GET['keyword'])) {
+                        $kw = $_GET['keyword'];
+                        $search_type = $_GET['search_option'];
+                        $sql = "SELECT COUNT(*) AS total_records FROM `course`, `language`
+                        WHERE user_id = $CURRENT_USER_INFOR[user_id]
+                        AND course.language_id = language.language_id
+                        AND $search_type LIKE '%$kw%'";
+                        // Get total record
+                        $total_records = executeResult($sql, $onlyOne = True)['total_records'];
+                    } else {
+                        $sql = "SELECT COUNT(*) AS total_records FROM `course` WHERE user_id = $CURRENT_USER_INFOR[user_id]";
+                        // Get total record
+                        $total_records = executeResult($sql, $onlyOne = True)['total_records'];
+                    }
 
                     // Set number of records per page
                     $limit = 5;
@@ -44,45 +60,43 @@ require abs_path('helpers/upload_file.php');
                     // Calculate the number of pages needed
                     $total_pages = ceil($total_records / $limit);
 
+
                     // Get current page number
                     $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
 
                     // Calculate start pointer
                     $start = ($current_page - 1) * $limit;
 
-                    // $sql = "SELECT * FROM `course` 
-                    //     WHERE user_id = $CURRENT_USER_INFOR[user_id]
-                    //     LIMIT $start, $limit";
-
-                    if (!isset($_GET['search']) || $_GET['search_txt'] == "") {
-                        $sql = "SELECT * FROM `course` 
-                                WHERE user_id = $CURRENT_USER_INFOR[user_id]
-                                LIMIT $start, $limit";
-                    } else {
-                        $kw = $_GET['search_txt'];
+                    // Paging with LIMIT clause
+                    if (isset($_GET['keyword'])) {
                         $sql = "SELECT * FROM `course`, `language`
                         WHERE user_id = $CURRENT_USER_INFOR[user_id]
                         AND course.language_id = language.language_id
-                        AND (course_name LIKE '%$kw%' OR course_title LIKE '%$kw%' OR language_name LIKE '%$kw%')
+                        AND $search_type LIKE '%$kw%'
                         LIMIT $start, $limit;";
+                    } else {
+                        $sql = "SELECT * FROM `course` 
+                                WHERE user_id = $CURRENT_USER_INFOR[user_id]
+                                LIMIT $start, $limit";
                     }
 
                     $my_courses = executeResult($sql);
                     ?>
 
+                    <!-- Search form -->
                     <form action="" class='search-form'>
                         <div class="input-group mb-3">
-                            <input value="<?php isset($kw) ? printf($kw) : printf("") ?>" style="width: 50% !important;" class="form-control" placeholder="Input course name, title, language,..." name="search_txt">
-                            <select class="form-select" id="inputGroupSelect01" style="width: 20% !important;">
-                                <option selected>Choose...</option>
-                                <option value="course_name">Course Name</option>
-                                <option value="course_title">Course Title</option>
-                                <option value="language_name">Language Name</option>
+                            <input name="keyword" value="<?php isset($kw) ? printf($kw) : printf("") ?>" style="width: 50% !important;" class="form-control" placeholder="Type Course name, title, language,...">
+                            <select class="form-select" id="inputGroupSelect01" style="width: 20% !important;" name="search_option">
+                                <option value="course_name" <?php isset($_GET['search_option']) ? ($search_type=='course_name' ? printf('selected') : '') : '' ?>>Course Name</option>
+                                <option value="course_title" <?php isset($_GET['search_option']) ? ($search_type== 'course_title' ? printf('selected') : '') : '' ?>>Course Title</option>
+                                <option value="language_name" <?php isset($_GET['search_option']) ? ($search_type== 'language_name' ? printf('selected') : '') : '' ?>>Language Name</option>
                             </select>
+
                             <input style="width: 8rem !important;" type="submit" class="btn btn-success" value="Search" name="search">
                         </div>
                     </form>
-
+                    <!-- Table data -->
                     <table class="table table-success table-striped">
                         <tr>
                             <th>ID</th>
@@ -110,24 +124,21 @@ require abs_path('helpers/upload_file.php');
                     <!-- Paging -->
                     <ul class="pagination" style="float: right;">
                         <!-- First page -->
-
-                        <li class="page-item" style="<?php $current_page == 1 ? printf('display: none;') : printf('')  ?>">
-                            <a class="page-link" href="my_course.php?page=1" aria-label="Previous">
+                        <li class="page-item" style="<?php $current_page == 1 ? printf('display: none;') : ''  ?>">
+                            <a class="page-link" href="my_course.php?page=1<?php isset($_GET['keyword']) ? printf('&keyword=' . $kw . '&search_option=' . $search_type) : '' ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-
                         <!-- Page -->
                         <?php
                         for ($page = 1; $page <= $total_pages; $page++) { ?>
-                            <li class="page-item <?php $page == $current_page ? printf('active') : printf('') ?>">
-                                <a class="page-link" href="my_course.php?page=<?= $page ?>"><?= $page ?></a>
+                            <li class="page-item <?php $page == $current_page ? printf('active') : '' ?>">
+                                <a class="page-link" href="my_course.php?page=<?= $page ?><?php isset($_GET['keyword']) ? printf('&keyword=' . $kw . '&search_option=' . $search_type) : '' ?>"><?= $page ?></a>
                             </li>
                         <?php } ?>
-
                         <!-- End page -->
-                        <li class="page-item" style="<?php $current_page == $total_pages ? printf('display: none;') : printf('')  ?>">
-                            <a class="page-link" href="my_course.php?page=<?= $total_pages ?>" aria-label="Next">
+                        <li class="page-item" style="<?php ($current_page == $total_pages || $total_pages == 0) ? printf('display: none;') : ''  ?>">
+                            <a class="page-link" href="my_course.php?page=<?= $total_pages ?><?php isset($_GET['keyword']) ? printf('&keyword=' . $kw . '&search_option=' . $search_type) : '' ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
