@@ -42,16 +42,16 @@ require abs_path('helpers/upload_file.php');
                     if (isset($_GET['keyword'])) {
                         $kw = $_GET['keyword'];
                         $search_type = $_GET['search_option'];
-                        $sql = "SELECT COUNT(*) AS total_records FROM `course`, `language`
+                        $sql = "SELECT COUNT(*) AS all_records FROM `course`, `language`
                         WHERE user_id = $CURRENT_USER_INFOR[user_id]
                         AND course.language_id = language.language_id
                         AND $search_type LIKE '%$kw%'";
                         // Get total record
-                        $total_records = executeResult($sql, $onlyOne = True)['total_records'];
+                        $total_records = executeResult($sql, $onlyOne = True)['all_records'];
                     } else {
-                        $sql = "SELECT COUNT(*) AS total_records FROM `course` WHERE user_id = $CURRENT_USER_INFOR[user_id]";
+                        $sql = "SELECT COUNT(*) AS all_records FROM `course` WHERE user_id = $CURRENT_USER_INFOR[user_id]";
                         // Get total record
-                        $total_records = executeResult($sql, $onlyOne = True)['total_records'];
+                        $total_records = executeResult($sql, $onlyOne = True)['all_records'];
                     }
 
                     // Set number of records per page
@@ -88,9 +88,10 @@ require abs_path('helpers/upload_file.php');
                         <div class="input-group mb-3">
                             <input name="keyword" value="<?php isset($kw) ? printf($kw) : printf("") ?>" style="width: 50% !important;" class="form-control" placeholder="Type Course name, title, language,...">
                             <select class="form-select" id="inputGroupSelect01" style="width: 20% !important;" name="search_option">
-                                <option value="course_name" <?php isset($_GET['search_option']) ? ($search_type=='course_name' ? printf('selected') : '') : '' ?>>Course Name</option>
-                                <option value="course_title" <?php isset($_GET['search_option']) ? ($search_type== 'course_title' ? printf('selected') : '') : '' ?>>Course Title</option>
-                                <option value="language_name" <?php isset($_GET['search_option']) ? ($search_type== 'language_name' ? printf('selected') : '') : '' ?>>Language Name</option>
+                                <option value="course_id" <?php isset($_GET['search_option']) ? ($search_type == 'course_id' ? printf('selected') : '') : '' ?>>Course ID</option>
+                                <option value="course_name" <?php isset($_GET['search_option']) ? ($search_type == 'course_name' ? printf('selected') : '') : '' ?>>Course Name</option>
+                                <option value="course_title" <?php isset($_GET['search_option']) ? ($search_type == 'course_title' ? printf('selected') : '') : '' ?>>Course Title</option>
+                                <option value="language_name" <?php isset($_GET['search_option']) ? ($search_type == 'language_name' ? printf('selected') : '') : '' ?>>Language Name</option>
                             </select>
 
                             <input style="width: 8rem !important;" type="submit" class="btn btn-success" value="Search" name="search">
@@ -129,7 +130,7 @@ require abs_path('helpers/upload_file.php');
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <!-- Page -->
+                        <!-- Page loop -->
                         <?php
                         for ($page = 1; $page <= $total_pages; $page++) { ?>
                             <li class="page-item <?php $page == $current_page ? printf('active') : '' ?>">
