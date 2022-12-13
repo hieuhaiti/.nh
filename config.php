@@ -8,4 +8,4 @@ function abs_path($path)
 {
     return 'C:/xampp/htdocs/HUMG_A1_EXAM/coures4u/' . $path;
 }
-?>
+?>aaa
