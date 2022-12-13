@@ -1,6 +1,7 @@
 <!-- Load helper files -->
 <?php
 require "C:/xampp/htdocs/HUMG_A1_EXAM/coures4u/config.php";
+require abs_path('db/db_connect.php');
 require abs_path('db/db_helper.php');
 require abs_path('helpers/upload_file.php');
 
@@ -22,8 +23,7 @@ require abs_path('helpers/delete_file.php');
     <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/classic/ckeditor.js"></script>
 
     <?php
-    // Get from old page
-    $current_course_id = $_GET['course_id'];
+        $current_course_id = $_GET['course_id'];
     ?>
 
     <?php
@@ -161,7 +161,7 @@ require abs_path('helpers/delete_file.php');
                             `course_img`='$new_file_name',`language_id`='$language_id',`sub_topic_id`=$sub_topic_id 
                             WHERE course_id=$current_course_infor[course_id]";
 
-                            excute($sql); 
+                            excute($sql);
                         } else {
                             $sql = "UPDATE `course` SET `course_name`='$course_name',`course_title`='$course_title',
                             `course_target`='$course_target',`course_description`='$course_description',

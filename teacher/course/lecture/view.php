@@ -69,6 +69,67 @@ require abs_path('helpers/upload_file.php');
                     </div>
                 </div>
                 <div class="col-9">
+                    <h3>Lecture View</h3>
+                    <?php
+                    $total_records = 0;
+                    $kw = "";
+                    $search_type = "";
+
+                    // Get total records
+                    if (isset($_GET['keyword'])) {
+                        $kw = $_GET['keyword'];
+                        $search_type = $_GET['search_option'];
+                        $sql = "SELECT COUNT(*) AS all_records FROM lecture WHERE chapter_id = $current_chapter_id AND $search_type LIKE '%$kw%'";
+                        // Get total record
+                        $total_records = executeResult($sql, $onlyOne = True)['all_records'];
+                    } else {
+                        $sql = "SELECT COUNT(*) AS all_records FROM lecture WHERE chapter_id = $current_chapter_id";
+                        // Get total record
+                        $total_records = executeResult($sql, $onlyOne = True)['all_records'];
+                    }
+
+                    // Set number of records per page
+                    $limit = 5;
+
+                    // Calculate the number of pages needed
+                    $total_pages = ceil($total_records / $limit);
+
+
+                    // Get current page number
+                    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                    // Calculate start pointer
+                    $start = ($current_page - 1) * $limit;
+
+                    // Paging with LIMIT clause
+                    if (isset($_GET['keyword'])) {
+                        $sql = "SELECT * FROM lecture WHERE chapter_id = $current_chapter_id AND $search_type LIKE '%$kw%'
+                        ORDER BY chapter_id ASC
+                        LIMIT $start, $limit;";
+                    } else {
+                        $sql = "SELECT * FROM lecture WHERE chapter_id = $current_chapter_id
+                            ORDER BY chapter_id ASC
+                            LIMIT $start, $limit";
+                    }
+
+                    $lectures = executeResult($sql);
+                    ?>
+                    <!-- Search form -->
+                    <form action="" class='search-form'>
+                        <div class="input-group mb-3">
+                            <input type="hidden" name="course_id" value="<?= $current_course_id ?>">
+                            <input type="hidden" name="chapter_id" value="<?= $current_chapter_id ?>">
+
+                            <input name="keyword" value="<?php isset($kw) ? printf($kw) : printf("") ?>" style="width: 50% !important;" class="form-control" placeholder="Type Chapter Title,...">
+                            <select class="form-select" id="inputGroupSelect01" style="width: 20% !important;" name="search_option">
+                                <option value="lecture_title" <?php isset($_GET['search_option']) ? ($search_type == 'lecture_title' ? printf('selected') : '') : '' ?>>Lecture Title</option>
+                                <option value="lecture_id" <?php isset($_GET['search_option']) ? ($search_type == 'lecture_id' ? printf('selected') : '') : '' ?>>Lecture ID</option>
+                            </select>
+
+                            <!-- submit search form -->
+                            <input style="width: 8rem !important;" type="submit" class="btn btn-success" value="Search" name="search">
+                        </div>
+                    </form>
                     <div class="table-responsive">
                         <table class="table table-success table-striped">
                             <thead class="table-dark">
@@ -82,9 +143,6 @@ require abs_path('helpers/upload_file.php');
                             </thead>
                             <tbody>
                                 <?php
-                                $sql = "SELECT * FROM lecture
-                                ORDER BY lecture_id ASC";
-                                $lectures = executeResult($sql);
                                 foreach ($lectures as $lecture) { ?>
                                     <tr>
                                         <td><?= $lecture['lecture_id'] ?></td>
@@ -108,6 +166,28 @@ require abs_path('helpers/upload_file.php');
                             </tbody>
                         </table>
                     </div>
+                    <!-- Paging -->
+                    <ul class="pagination" style="float: right;">
+                        <!-- First page -->
+                        <li class="page-item" style="<?php $current_page == 1 ? printf('display: none;') : ''  ?>">
+                            <a class="page-link" href="view.php?course_id=<?= $current_course_id ?>&page=1<?php isset($_GET['keyword']) ? printf('&keyword=' . $kw . '&search_option=' . $search_type) : '' ?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <!-- Page loop -->
+                        <?php
+                        for ($page = 1; $page <= $total_pages; $page++) { ?>
+                            <li class="page-item <?php $page == $current_page ? printf('active') : '' ?>">
+                                <a class="page-link" href="view.php?course_id=<?= $current_course_id ?>&page=<?= $page ?><?php isset($_GET['keyword']) ? printf('&keyword=' . $kw . '&search_option=' . $search_type) : '' ?>"><?= $page ?></a>
+                            </li>
+                        <?php } ?>
+                        <!-- End page -->
+                        <li class="page-item" style="<?php ($current_page == $total_pages || $total_pages == 0) ? printf('display: none;') : ''  ?>">
+                            <a class="page-link" href="view.php?course_id=<?= $current_course_id ?>&page=<?= $total_pages ?><?php isset($_GET['keyword']) ? printf('&keyword=' . $kw . '&search_option=' . $search_type) : '' ?>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
